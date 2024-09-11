@@ -1,7 +1,5 @@
 extends Node
 
-# Test af git
-
 @export var mob_scene: PackedScene
 var score
 
