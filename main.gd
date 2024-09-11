@@ -1,5 +1,7 @@
 extends Node
 
+# Test af git
+
 @export var mob_scene: PackedScene
 var score
 
@@ -51,8 +53,3 @@ func _on_mob_timer_timeout():
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
-
-
-
-
-
