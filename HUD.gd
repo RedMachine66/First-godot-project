@@ -14,7 +14,7 @@ func _process(delta):
 func show_message(text):
 	$Message.text = text
 	$Message.show()
-	$MessageTime.start()
+	$MessageTimer.start()
 
 func show_game_over():
 	show_message("Game Over")
