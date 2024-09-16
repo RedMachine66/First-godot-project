@@ -2,10 +2,16 @@ extends Node
 
 @export var mob_scene: PackedScene
 var score
+var highscore = 0
+var velocity_multiplier = 1
+var velocity_increase_rate = 0.05
+var max_velocity_multiplier = 3
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	score = 0
+	highscore = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -14,12 +20,18 @@ func _process(delta):
 func game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	if score > highscore:
+		print(score)
+		highscore = score
+		print(highscore)
+		$HUD.update_highscore(highscore)
 	$HUD.show_game_over()
 	$Music.stop()
 	$DeathSound.play()
 
 func new_game():
 	score = 0
+	velocity_multiplier = 1
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	$HUD.update_score(score)
@@ -54,8 +66,14 @@ func _on_mob_timer_timeout():
 	mob.rotation = direction
 
 	# Choose the velocity for the mob.
-	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
+	var base_velocity = randf_range(150.0, 250.0)
+	var velocity = Vector2(base_velocity * velocity_multiplier, 0.0)
 	mob.linear_velocity = velocity.rotated(direction)
+	print(base_velocity)
+	print(velocity)
+	print(velocity_multiplier)
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+	
+	velocity_multiplier = min(velocity_multiplier + velocity_increase_rate, max_velocity_multiplier)
