@@ -3,11 +3,16 @@ signal hit
 
 @export var speed = 400
 var screen_size
+#var health = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size
 	hide()
+
+#func _on_heart_collected():
+	#health += 1
+	#print("health increased! Current health: ", health)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -43,6 +48,13 @@ func _process(delta):
 		$AnimatedSprite2D.flip_v = velocity.y > 0
 
 func _on_body_entered(body):
+	#print(body)
+	#if body == 'Heart':
+		#pass
+	#else:
+		#hide()
+		#hit.emit()
+		#$CollisionShape2D.set_deferred("disabled", true)
 	hide()
 	hit.emit()
 	$CollisionShape2D.set_deferred("disabled", true)
@@ -51,4 +63,3 @@ func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
-
